@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+</head>
+<body>
+  666
+
+  <script>
+
+    function getParams(obj = {}){
+      const arr = []
+      Object.keys(obj).forEach((key)=>{
+        arr.push(`${key}=${obj[key]}`)
+      })
+      return arr.join('&')
+    }
+
+
+    const xhr = new XMLHttpRequest()
+    xhr.open('get', `https://www-test.shiguangkey.com/api/materialPackage/getMaterialPackageList?${getParams({
+      pageIndex: 2,
+      pageSize: 4
+    })}`, true)
+    xhr.setRequestHeader('token', '0x77b1ff07129fb19b66b420e8318505')
+    xhr.send()
+
+    xhr.onreadystatechange = () => {
+      if (xhr.readyState==4 && xhr.status==200) {
+        console.log(JSON.parse(xhr.response))
+      }
+    }
+  </script>
+    <!-- <script>
+      const xhr = new XMLHttpRequest()
+      xhr.open('post', 'https://www-test.shiguangkey.com/api/materialPackage/updateMaterialPackageStatus', true)
+      // xhr.setRequestHeader("Content-type", 'application/json;charset=UTF-8')
+      xhr.setRequestHeader('token', '0x77b1ff07129fb19b66b420e8318505')
+      // xhr.send(JSON.stringify({
+      //   status: 1,
+      //   id: 184
+      // }))
+      var a = new FormData()
+     a.append('name','sb')
+      xhr.send(a)
+   </script> -->
+</body>
+</html>

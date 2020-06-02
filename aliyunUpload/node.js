@@ -4,7 +4,7 @@ var queryString = require("querystring");
 const OSS = require('ali-oss');
 const client = new OSS({
   region: 'oss-cn-shenzhen',
-  accessKeyId: 'LTAI4G7PJfD7Az3vgv6P9wBy',
+  accessKeyId: 'zjLTAI4G7PJfD7Az3vgv6P9wBy',
   accessKeySecret: '1t5f58Ji6HCLzwIbrWK1pl44DahxSS',
   bucket: 'oss-zhao'
 });

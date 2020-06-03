@@ -7,13 +7,18 @@
   </head>
   <body>
     <input id="file" type="file" />
+    <img id="img" alt="" src="" />
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script>
       const file = document.getElementById("file");
       const btn = document.getElementById("btn");
+      const img = document.getElementById("img");
 
       file.addEventListener("change", (e) => {
         const fileObj = e.target.files[0];
+        if (!fileObj) {
+          return;
+        }
         const formData = new FormData();
 
         formData.append("file", fileObj);
@@ -22,7 +27,7 @@
         axios
           .post("http://127.0.0.1:8083/uploadfile", formData)
           .then((res) => {
-            console.log(res);
+            img.setAttribute("src", res.data);
           })
           .catch((err) => {
             console.log(err);

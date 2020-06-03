@@ -1,84 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Document</title>
-</head>
-<body>
-  <input id='file' type='file' />
-  <input id='text' type='text' />
-  <button id='btn'>设置文件名</button>
-  <script src='https://unpkg.com/axios/dist/axios.min.js'>
-  </script>
-  <script>
-    let fileObj
-    const ajax = {
-      get: function(url, onsuccess, onerror) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('GET', url, false);
-        xhr.onreadystatechange=function(){
-          if(xhr.readyState==4){
-            if(xhr.status==200 || xhr.status==304){
-              onsuccess(xhr.response)
-            }else{
-              onerror(xhr.response)
-            }
-          }
-        }
-   
-        xhr.send();
-      },
-      post:function(url,params={}, onsuccess, onerror) {
-        const xhr = new XMLHttpRequest();
-        xhr.open('post', url, false);
-        xhr.setRequestHeader('Content-Type', 'multipart/form-data; boundary=------WebKitFormBoundarywCIQp7LGd0ScAbsZ')
-        // xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded;charset=utf-8')
-        xhr.onreadystatechange = function() {
-          if(xhr.readyState==4){
-            if(xhr.status==200 || xhr.status==304){
-              onsuccess(xhr.response)
-            }else{
-              onerror(xhr.response)
-            }
-          }
-        }
-        console.log(params)
-        var formData = new FormData()
-        Object.keys(params).forEach((item) => {
-          formData.append(item, encodeURI(encodeURI(params[item])))
-        })
-        xhr.send(formData)
-      },
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <input id="file" type="file" />
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script>
+      const file = document.getElementById("file");
+      const btn = document.getElementById("btn");
 
-    const file = document.getElementById('file')
-    const text = document.getElementById('text')
-    const btn = document.getElementById('btn')
+      file.addEventListener("change", (e) => {
+        const fileObj = e.target.files[0];
+        const formData = new FormData();
 
-    file.addEventListener('change', (e) => {
-      fileObj = e.target.files[0]
-    })
+        formData.append("file", fileObj);
+        formData.append("fileName", fileObj.name);
 
-    btn.addEventListener('click', () => {
-      const fileName = text.value
-
-      // ajax.post(`http://127.0.0.1:8083/uploadfile`,  { fileName, fileObj }, function (res) {
-      //   console.log(res,'正确')
-      // },function(err) {
-      //   console.log(err,'错误xinxi')
-      // })
-   
-      const formData = new FormData()
-      formData.append('file', fileObj)
-      formData.append('fileName', fileName)
-      axios.post('http://127.0.0.1:8083/uploadfile', formData).then((res) => {
-        console.log(res)
-      }).catch((err) => {
-        console.log(err)
-      })
-    })
-
-  </script>
-</body>
+        axios
+          .post("http://127.0.0.1:8083/uploadfile", formData)
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      });
+    </script>
+  </body>
 </html>
